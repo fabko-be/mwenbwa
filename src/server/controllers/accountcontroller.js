@@ -122,4 +122,12 @@ module.exports = {
             console.log(error);
         }
     },
+    async deletebyid(req, res) {
+        try {
+            await account.deleteOne({_id: req.params.id});
+            res.status(200).json({message: "Account successfully deleted !"});
+        } catch (error) {
+            res.status(404).json({message: "Account doesn't exists !"});
+        }
+    },
 };

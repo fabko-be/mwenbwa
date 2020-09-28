@@ -41,6 +41,9 @@ app.get("/searchbyname/:name", accountcontroller.retrievebyname);
 app.get("/searchbyemail/:email", accountcontroller.retrievebyemail);
 app.get("/searchbyid/:id", accountcontroller.retrievebyid);
 
+// Delete Account
+
+app.delete("/deleteuser/:id", accountcontroller.deletebyid);
 // Connexion to DataBase
 try {
     mongoose.connect(process.env.MONGO_DB_CONNECTION, {
