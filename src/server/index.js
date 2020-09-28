@@ -27,7 +27,11 @@ app.get("/hello", (req, res) => {
     res.send("Hello, World!");
 });
 // Create new Account
-app.post("/register", accountcontroller.store);
+app.post("/register", accountcontroller.registeraccount);
+
+// Update account
+
+app.put("/updateuser/:id", accountcontroller.updateaccount);
 
 // Get all users
 app.get("/allusers", accountcontroller.allusers);
