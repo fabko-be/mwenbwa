@@ -8,7 +8,6 @@
 
 import * as React from "react";
 import ReactDOM from "react-dom";
+import Index from "./components/index";
 
-import HelloWorld from "./components/hello";
-
-ReactDOM.render(<HelloWorld />, document.querySelector("#app"));
+ReactDOM.render(<Index />, document.querySelector("#app"));
