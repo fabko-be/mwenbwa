@@ -4,11 +4,7 @@ const UserSchema = new mongoose.Schema({
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
     color: {type: String, unique: true, required: true},
-    trees: [
-        {
-            tree_id: {type: String},
-        },
-    ],
+    trees: [{tree_id: {type: String}}],
     leaves: {type: Number},
 });
 module.exports = mongoose.model("users", UserSchema);

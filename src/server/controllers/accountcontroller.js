@@ -40,7 +40,7 @@ module.exports = {
         try {
             const userUpdate = await account.findOne({_id: req.params.id});
             if (userUpdate) {
-                const {name, email, password, color} = req.body;
+                const {name, email, password, color, leaves, trees} = req.body;
 
                 const userExist = await account.findOne({name});
                 const emailExist = await account.findOne({email});
@@ -72,11 +72,19 @@ module.exports = {
                 if (req.body.color) {
                     userUpdate.color = req.body.color;
                 }
+                if (req.body.leaves) {
+                    userUpdate.leaves = req.body.leaves;
+                }
+                if (req.body.trees) {
+                    userUpdate.trees = req.body.trees;
+                }
                 await userUpdate.save({
                     name,
                     email,
                     password,
                     color,
+                    trees,
+                    leaves,
                 });
             }
             return res.status(200).json({message: `User has been updated !`});
