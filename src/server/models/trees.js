@@ -1,0 +1,31 @@
+import mongoose from "mongoose";
+const TreesSchema = new mongoose.Schema({
+    name: {type: String},
+    criconf: {type: Number},
+    geoloc: {
+        lat: {type: Number},
+        lon: {type: Number},
+    },
+    hauteur_totale: {type: Number},
+    nom_complet: {type: String},
+    x_lambda: {type: Number},
+    y_phi: {type: Number},
+    x_lambert72: {type: Number},
+    y_lambert72: {type: Number},
+    history: [
+        {
+            previous_owners: {type: String},
+            date: {type: Date},
+        },
+    ],
+    owner: {type: String},
+    lock: {type: Boolean},
+    comments: [
+        {
+            author: {type: String},
+            date: {type: Date},
+            content: {type: String},
+        },
+    ],
+});
+module.exports = mongoose.model("Trees", TreesSchema);

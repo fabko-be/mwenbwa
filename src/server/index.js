@@ -11,6 +11,7 @@ import path from "path";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import accountcontroller from "./controllers/accountcontroller";
+import treescontroller from "./controllers/treescontroller";
 
 dotenv.config();
 mongoose.set("useCreateIndex", true);
@@ -21,11 +22,6 @@ app.use(express.urlencoded());
 
 app.use(express.static(path.resolve(__dirname, "../../bin/client")));
 
-// Test connexion to get request
-app.get("/hello", (req, res) => {
-    console.log(`ℹ️  (${req.method.toUpperCase()}) ${req.url}`);
-    res.send("Hello, World!");
-});
 // Create new Account
 app.post("/register", accountcontroller.registeraccount);
 
@@ -42,8 +38,12 @@ app.get("/searchbyemail/:email", accountcontroller.retrievebyemail);
 app.get("/searchbyid/:id", accountcontroller.retrievebyid);
 
 // Delete Account
-
 app.delete("/deleteuser/:id", accountcontroller.deletebyid);
+
+// Consult trees
+
+app.get("/treeslist", treescontroller.alltrees);
+
 // Connexion to DataBase
 try {
     mongoose.connect(process.env.MONGO_DB_CONNECTION, {
