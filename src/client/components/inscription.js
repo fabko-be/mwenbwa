@@ -21,7 +21,12 @@ const Inscription = () => (
                 <input type={"password"} />
                 <br />
                 <br />
-                <div className={"div is-primary"}>{"Confirm"}</div>
+                <div>
+                    <label htmlFor={"color"}>{"Color"}</label>
+                    <input type={"color"} name={"color"} value={"color"} />
+                </div>
+                <br />
+                <div className={"button is-primary"}>{"Confirm"}</div>
             </form>
         </section>
     </div>

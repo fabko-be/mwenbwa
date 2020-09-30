@@ -8,16 +8,14 @@
 import Title from "./title";
 import Connection from "./connection";
 import Inscription from "./inscription";
-import * as React from "react";
+import React from "react";
 
-const App = () => (
-    <div>
+export default function App() {
+    return (
         <div>
             <Title />
             <Connection />
             <Inscription />
         </div>
-    </div>
-);
-
-export default App;
+    );
+}
