@@ -22,7 +22,7 @@ module.exports = env => {
         new HtmlWebpackPlugin({
             template: resolve(__dirname, "./src/index.html"),
             path: "../",
-        }),
+        })
     ];
 
     let optimization = {};
