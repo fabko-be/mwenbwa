@@ -76,7 +76,7 @@ module.exports = {
                     userUpdate.leaves = req.body.leaves;
                 }
                 if (req.body.trees) {
-                    userUpdate.trees = req.body.trees;
+                    userUpdate.trees = req.body.leaves;
                 }
                 await userUpdate.save({
                     name,
@@ -133,9 +133,32 @@ module.exports = {
     async deletebyid(req, res) {
         try {
             await account.deleteOne({_id: req.params.id});
-            res.status(200).json({message: "Account successfully deleted !"});
+            return res
+                .status(200)
+                .json({message: "Account successfully deleted !"});
         } catch (error) {
-            res.status(404).json({message: "Account doesn't exists !"});
+            return res.status(404).json({message: "Account doesn't exists !"});
+        }
+    },
+    async updatetrees(req, res) {
+        try {
+            const treeExist = await account.findOne({trees: req.body.trees});
+            if (treeExist) {
+                return res.status(400).json({
+                    message: "Tree already exist for this player",
+                });
+            }
+            await account.findOneAndUpdate(
+                {id: req.body.id},
+                {$push: {trees: req.body.trees}},
+            );
+            return res
+                .status(200)
+                .json({message: "Tree(s) successfully added !"});
+        } catch (error) {
+            return res
+                .status(400)
+                .json({message: "Impossible to push new tree(s) !"});
         }
     },
 };

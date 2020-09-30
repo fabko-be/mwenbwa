@@ -12,9 +12,11 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import accountcontroller from "./controllers/accountcontroller";
 import treescontroller from "./controllers/treescontroller";
+// import {ppid} from "process";
 
 dotenv.config();
 mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
 const {APP_PORT} = process.env;
 const app = express();
 app.use(express.json());
@@ -28,6 +30,7 @@ app.post("/register", accountcontroller.registeraccount);
 // Update account
 
 app.put("/updateuser/:id", accountcontroller.updateaccount);
+app.put("/updateusertrees/:id", accountcontroller.updatetrees);
 
 // Get all users
 app.get("/allusers", accountcontroller.allusers);

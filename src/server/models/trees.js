@@ -18,12 +18,12 @@ const TreesSchema = new mongoose.Schema({
             date: {type: Date},
         },
     ],
-    owner: {type: String},
-    lock: {type: Boolean},
+    owner: {type: String, default: null},
+    lock: {type: Boolean, default: false},
     comments: [
         {
             author: {type: String},
-            date: {type: Date},
+            date: {type: Date, default: Date.now},
             content: {type: String},
         },
     ],
