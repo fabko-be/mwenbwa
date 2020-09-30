@@ -10,8 +10,7 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import accountcontroller from "./controllers/accountcontroller";
-import treescontroller from "./controllers/treescontroller";
+import routes from "./routes";
 // import {ppid} from "process";
 
 dotenv.config();
@@ -21,32 +20,7 @@ const {APP_PORT} = process.env;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
-
 app.use(express.static(path.resolve(__dirname, "../../bin/client")));
-
-// Create new Account
-app.post("/register", accountcontroller.registeraccount);
-
-// Update account
-// Update user fields (name, email, password, color)
-app.put("/updateuser/:id", accountcontroller.updateaccount);
-// Update user trees (push new tree into trees array in users collection)
-app.put("/updateusertrees/:id", accountcontroller.updatetrees);
-
-// Get all users
-app.get("/allusers", accountcontroller.allusers);
-
-// Search Account
-app.get("/searchbyname/:name", accountcontroller.retrievebyname);
-app.get("/searchbyemail/:email", accountcontroller.retrievebyemail);
-app.get("/searchbyid/:id", accountcontroller.retrievebyid);
-
-// Delete Account
-app.delete("/deleteuser/:id", accountcontroller.deletebyid);
-
-// Consult trees
-
-app.get("/treeslist", treescontroller.alltrees);
 
 // Connexion to DataBase
 try {
@@ -58,6 +32,8 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+app.use(routes);
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );

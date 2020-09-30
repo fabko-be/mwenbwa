@@ -35,7 +35,7 @@ module.exports = {
         } catch (error) {
             return res
                 .status(400)
-                .json({message: `Impossible to create account${error}`});
+                .json({message: `Impossible to create account ${error}`});
         }
     },
     async updateaccount(req, res) {
