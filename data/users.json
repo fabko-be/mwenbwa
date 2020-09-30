@@ -1,0 +1,8 @@
+[
+    {
+        "name" : "test",
+        "email" : "email@email.com",
+        "password" : "password",
+        "color" : "red"
+    }
+]
