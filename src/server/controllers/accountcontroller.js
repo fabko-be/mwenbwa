@@ -1,4 +1,5 @@
 import account from "../models/account";
+import bcrypt from "bcryptjs";
 
 module.exports = {
     async registeraccount(req, res) {
@@ -21,10 +22,11 @@ module.exports = {
                     .status(400)
                     .json({message: "This color is already in use !"});
             }
+            const hashedPassword = await bcrypt.hash(password, 10);
             await account.create({
                 name,
                 email,
-                password,
+                password: hashedPassword,
                 color,
                 trees,
                 leaves,
@@ -40,7 +42,7 @@ module.exports = {
         try {
             const userUpdate = await account.findOne({_id: req.params.id});
             if (userUpdate) {
-                const {name, email, password, color, leaves, trees} = req.body;
+                const {name, email, password, color} = req.body;
 
                 const userExist = await account.findOne({name});
                 const emailExist = await account.findOne({email});
@@ -59,7 +61,7 @@ module.exports = {
                         .status(400)
                         .json({message: "This color is already in use !"});
                 }
-
+                const hashedPassword = await bcrypt.hash(password, 10);
                 if (req.body.name) {
                     userUpdate.name = req.body.name;
                 }
@@ -67,24 +69,16 @@ module.exports = {
                     userUpdate.email = req.body.email;
                 }
                 if (req.body.password) {
-                    userUpdate.password = req.body.password;
+                    userUpdate.password = hashedPassword;
                 }
                 if (req.body.color) {
                     userUpdate.color = req.body.color;
-                }
-                if (req.body.leaves) {
-                    userUpdate.leaves = req.body.leaves;
-                }
-                if (req.body.trees) {
-                    userUpdate.trees = req.body.leaves;
                 }
                 await userUpdate.save({
                     name,
                     email,
                     password,
                     color,
-                    trees,
-                    leaves,
                 });
             }
             return res.status(200).json({message: `User has been updated !`});

@@ -28,8 +28,9 @@ app.use(express.static(path.resolve(__dirname, "../../bin/client")));
 app.post("/register", accountcontroller.registeraccount);
 
 // Update account
-
+// Update user fields (name, email, password, color)
 app.put("/updateuser/:id", accountcontroller.updateaccount);
+// Update user trees (push new tree into trees array in users collection)
 app.put("/updateusertrees/:id", accountcontroller.updatetrees);
 
 // Get all users
