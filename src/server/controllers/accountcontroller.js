@@ -139,11 +139,11 @@ module.exports = {
             const treeExist = await account.findOne({trees: req.body.trees});
             if (treeExist) {
                 return res.status(400).json({
-                    message: "Tree already exist for this player",
+                    message: "Tree already owned by a player !",
                 });
             }
             await account.findOneAndUpdate(
-                {id: req.body.id},
+                {_id: req.params.id},
                 {$push: {trees: req.body.trees}},
             );
             return res

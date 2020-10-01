@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     color: {type: String, unique: true, required: true},
     //TODO:
     // ADD TREES UNIQUE !
-    trees: [{type: String}],
-    leaves: {type: Number},
+    trees: {type: Array, default: null, sparse: true},
+    leaves: {type: Number, default: 0},
 });
 module.exports = mongoose.model("users", UserSchema);
