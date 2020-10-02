@@ -1,4 +1,4 @@
-import account from "../models/account";
+import {account} from "../models/account";
 import bcrypt from "bcryptjs";
 
 module.exports = {
@@ -90,8 +90,8 @@ module.exports = {
     },
     async allusers(req, res) {
         try {
-            const users = await account.find();
-            res.send(users);
+            const allUsers = await account.find();
+            res.send(allUsers);
         } catch (error) {
             console.log(error);
         }

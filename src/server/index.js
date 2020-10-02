@@ -11,6 +11,7 @@ import path from "path";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import routes from "./routes";
+// import {Trees, Points} from "./models/trees";
 // import {ppid} from "process";
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(express.urlencoded());
 app.use(express.static(path.resolve(__dirname, "../../bin/client")));
 
 // Connexion to DataBase
+
 try {
     mongoose.connect(process.env.MONGO_DB_CONNECTION, {
         useNewUrlParser: true,
@@ -32,6 +34,27 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "Connection error:"));
+// db.once("open", async () => {
+//     try {
+//         const result = await Trees.find();
+//         result.forEach(async element => {
+//             await Trees.updateOne(
+//                 {_id: element._id},
+//                 {
+//                     $unset: {
+//                         y_phi: {},
+//                     },
+//                 },
+//             );
+//         });
+//         console.log("fields added");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
 
 app.use(routes);
 app.listen(APP_PORT, () =>
