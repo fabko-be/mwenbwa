@@ -13,8 +13,6 @@ routes.post("/register", accountcontroller.registeraccount);
 // Update account
 // Update user fields (name, email, password, color)
 routes.put("/updateuser/:id", accountcontroller.updateaccount);
-// Update user trees (push new tree into trees array in users collection)
-routes.put("/updateusertrees/:id", accountcontroller.updatetrees);
 // Get all users
 routes.get("/allusers", accountcontroller.allusers);
 // Search Account
@@ -30,5 +28,6 @@ routes.delete("/deleteuser/:id", accountcontroller.deletebyid);
 
 // Consult trees
 routes.get("/treeslist", treescontroller.alltrees);
+routes.get("/buytree", treescontroller.buyNewTree);
 
 module.exports = routes;

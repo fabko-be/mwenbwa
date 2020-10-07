@@ -2,6 +2,7 @@ import {account} from "../models/account";
 import bcrypt from "bcryptjs";
 
 module.exports = {
+    // Création d'un nouvel utilisateur
     async registeraccount(req, res) {
         try {
             const {name, email, password, color, trees, leaves} = req.body;
@@ -38,6 +39,7 @@ module.exports = {
                 .json({message: `Impossible to create account ${error}`});
         }
     },
+    // Modification d'un utilisateur
     async updateaccount(req, res) {
         try {
             const userUpdate = await account.findOne({_id: req.params.id});
@@ -88,6 +90,7 @@ module.exports = {
                 .json({message: `Impossible to update account${error}`});
         }
     },
+    // Rechercher tous les utilisateurs
     async allusers(req, res) {
         try {
             const allUsers = await account.find();
@@ -96,6 +99,7 @@ module.exports = {
             console.log(error);
         }
     },
+    // Rechercher un utilisateur par nom
     async retrievebyname(req, res) {
         try {
             const nameSearch = await account.findOne({name: req.params.name});
@@ -104,6 +108,7 @@ module.exports = {
             console.log(error);
         }
     },
+    // Rechercher un utilisateur par email
     async retrievebyemail(req, res) {
         try {
             const emailSearch = await account.findOne({
@@ -114,6 +119,7 @@ module.exports = {
             console.log(error);
         }
     },
+    // Rechercher un utilisateur par ID
     async retrievebyid(req, res) {
         try {
             const idSearch = await account.findOne({
@@ -124,6 +130,7 @@ module.exports = {
             console.log(error);
         }
     },
+    // Supprimer un utilisateur
     async deletebyid(req, res) {
         try {
             await account.deleteOne({_id: req.params.id});
@@ -132,27 +139,6 @@ module.exports = {
                 .json({message: "Account successfully deleted !"});
         } catch (error) {
             return res.status(404).json({message: "Account doesn't exists !"});
-        }
-    },
-    async updatetrees(req, res) {
-        try {
-            const treeExist = await account.findOne({trees: req.body.trees});
-            if (treeExist) {
-                return res.status(400).json({
-                    message: "Tree already owned by a player !",
-                });
-            }
-            await account.findOneAndUpdate(
-                {_id: req.params.id},
-                {$push: {trees: req.body.trees}},
-            );
-            return res
-                .status(200)
-                .json({message: "Tree(s) successfully added !"});
-        } catch (error) {
-            return res
-                .status(400)
-                .json({message: "Impossible to push new tree(s) !"});
         }
     },
 };

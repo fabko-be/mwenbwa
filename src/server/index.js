@@ -11,7 +11,10 @@ import path from "path";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import routes from "./routes";
-// import {Trees, Points} from "./models/trees";
+// import {Trees} from "./models/trees";
+// import {nameByRace} from "fantasy-name-generator";
+// import "./functions/treesfunction.js";
+import {newPlayerTrees} from "./functions/treesfunction.js";
 // import {ppid} from "process";
 
 dotenv.config();
@@ -35,27 +38,32 @@ try {
     console.log(error);
 }
 
-// const db = mongoose.connection;
-// db.on("error", console.error.bind(console, "Connection error:"));
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "Connection error:"));
 // db.once("open", async () => {
 //     try {
-//         const result = await Trees.find();
-//         result.forEach(async element => {
-//             await Trees.updateOne(
-//                 {_id: element._id},
-//                 {
-//                     $unset: {
-//                         y_phi: {},
+//         const treeArray = await Trees.find();
+//         // console.log (treeArray);
+//         treeArray.forEach(async element => {
+//             try {
+//                 await Trees.updateOne(
+//                     {_id: element.id},
+//                     {
+//                         $set: {
+//                             history: [],
+//                         },
 //                     },
-//                 },
-//             );
+//                 );
+//             } catch (error) {
+//                 console.log(error);
+//             }
 //         });
-//         console.log("fields added");
 //     } catch (error) {
 //         console.log(error);
 //     }
 // });
-
+newPlayerTrees();
+// generateTreeName();
 app.use(routes);
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
