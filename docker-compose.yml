@@ -10,13 +10,14 @@
         - "./package.json:/src/app/package.json"
         - "./node_modules:/src/app/node_modules"
         - "./bin:/src/app/bin"
+        - "./.env:/src/app/.env"
       expose:
         - "12345"
         - "9229"
       ports:
         - "80:12345"
         - "9229"
-      command: "nodemon --inspect=0.0.0.0:9229 --watch bin/server bin/server/server.js"
+      command: "nodemon --inspect=0.0.0.0:9229 --watch bin/server bin/server/index.js"
     mongo:
       image: "mongo"
       restart: "always"
