@@ -1,0 +1,2 @@
+SESSION_SECRET=secret
+MONGO_DB_CONNECTION=mongodb+srv://mwenbwa-admin:elLwkqOFuAlPDclQ@mwenbwa-becode.tqoa6.mongodb.net/mwenbwa?retryWrites=true&w=majority
