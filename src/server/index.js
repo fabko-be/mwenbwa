@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* becodeorg/mwenbwa
  *
  * /src/server/index.js - Server entry point
@@ -14,7 +15,6 @@ import routes from "./routes";
 // import {Trees} from "./models/trees";
 // import {nameByRace} from "fantasy-name-generator";
 // import "./functions/treesfunction.js";
-import {newPlayerTrees} from "./functions/treesfunction.js";
 // import {ppid} from "process";
 
 dotenv.config();
@@ -23,8 +23,13 @@ mongoose.set("useFindAndModify", false);
 const {APP_PORT} = process.env;
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.resolve(__dirname, "../../bin/client")));
+
+app.get("/", (req, res) => {
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).send("<h1>Yop on Mwenbwa</h1>");
+});
 
 // Connexion to DataBase
 
@@ -37,34 +42,9 @@ try {
 } catch (error) {
     console.log(error);
 }
-
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "Connection error:"));
-// db.once("open", async () => {
-//     try {
-//         const treeArray = await Trees.find();
-//         // console.log (treeArray);
-//         treeArray.forEach(async element => {
-//             try {
-//                 await Trees.updateOne(
-//                     {_id: element.id},
-//                     {
-//                         $set: {
-//                             history: [],
-//                         },
-//                     },
-//                 );
-//             } catch (error) {
-//                 console.log(error);
-//             }
-//         });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// });
-newPlayerTrees();
-// generateTreeName();
+// Import api routes
 app.use(routes);
+
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );

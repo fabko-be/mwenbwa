@@ -12,12 +12,11 @@ module.exports = {
             res.status(400).json({message: "Impossible to list trees"});
         }
     },
-    async buyNewTree() {
-        try {
-            const freeTrees = await Trees.find({owner: null});
-            console.log(freeTrees.length);
-        } catch (error) {
-            console.log(error);
-        }
-    },
+    // async buyNewTree() {
+    //     try {
+    //         const freeTrees = await Trees.find({owner: null});
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // },
 };
