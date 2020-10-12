@@ -1,6 +1,8 @@
 import account from "../models/account";
+import {Trees} from "../models/trees";
 import bcrypt from "bcryptjs";
 import jwt from "../middleware/jwtauth";
+import treeFunction from "../functions/treesfunction";
 
 // eslint-disable-next-line no-useless-escape
 const EMAIL_REGEX = /^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$/;
@@ -9,7 +11,7 @@ module.exports = {
     // Création d'un nouvel utilisateur
     async registeraccount(req, res) {
         try {
-            const {name, email, password, color, trees, leaves} = req.body;
+            const {name, email, password, color, leaves} = req.body;
             const userExist = await account.findOne({name});
             const emailExist = await account.findOne({email});
             const colorExist = await account.findOne({color});
@@ -53,13 +55,31 @@ module.exports = {
                     .json({message: "This color is already in use !"});
             }
             const hashedPassword = await bcrypt.hash(password, 10);
+            const treesToAdd = await treeFunction.newPlayerTrees();
+            // console.log(treesToAdd);
             await account.create({
                 name,
                 email,
                 password: hashedPassword,
                 color,
-                trees,
+                trees: treesToAdd,
                 leaves,
+            });
+            // console.log(treesToAdd);
+            const userCreated = await account.findOne({email});
+            // const treesList = treesToAdd.map(obj => obj.id);
+            // const treesName = treesToAdd.map(obj => obj.name);
+            // await Trees.update(
+            //     {_id: {$in: treesList}},
+            //     {$set: {owner: userCreated._id, name: {$in: treesName}}},
+            //     {multi: true},
+            // );
+            treesToAdd.forEach(async tree => {
+                await Trees.update(
+                    {_id: tree.id},
+                    {$set: {owner: userCreated._id, name: tree.name}},
+                    {multi: true},
+                );
             });
             return res.status(200).json({message: `User has been created !`});
         } catch (error) {
@@ -128,8 +148,6 @@ module.exports = {
                         .status(400)
                         .json({message: "This color is already in use !"});
                 }
-                // const hashedPassword = await bcrypt.hash(password, 10);
-                // console.log(emailExist);
                 if (req.body.name && !userExist) {
                     userUpdate.name = req.body.name;
                 }
@@ -225,8 +243,6 @@ module.exports = {
         try {
             const headerToken = req.headers.authorization;
             const accountId = await jwt.getAccountId(headerToken);
-            console.log(headerToken);
-            console.log(accountId);
             if (accountId < 0) {
                 return res.status(400).json({error: "Wrong token"});
             }

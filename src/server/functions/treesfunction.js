@@ -56,9 +56,25 @@ const newPlayerTrees = async () => {
     // }
     return treesToAdd;
 };
+// Add owner to trees when user created
+const addTreesToNewUser = async (req, res, treeId, ownerId) => {
+    try {
+        const ownerToAdd = await ownerId;
+        await Trees.updateOne(
+            {_id: treeId},
+            {
+                $set: {owner: ownerToAdd},
+            },
+        );
+        return res.status(200).json({message: "Trees updated"});
+    } catch (err) {
+        return res.status({error: "impossible to add owner !"});
+    }
+};
 
 module.exports = {
     generateTreeName,
     calculTreeValue,
     newPlayerTrees,
+    addTreesToNewUser,
 };

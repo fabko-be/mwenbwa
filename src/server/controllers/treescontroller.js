@@ -12,6 +12,21 @@ module.exports = {
             res.status(400).json({message: "Impossible to list trees"});
         }
     },
+    // async addtreestonewuser(req, res, array, owner) {
+    //     try {
+    //         const ownerId = await owner;
+    //         array.forEach(element => {
+    //             const treeToAdd = Trees.updateOne(
+    //                 {_id: element.id},
+    //                 {
+    //                     $set: {owner: ownerId},
+    //                 },
+    //             );
+    //         });
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // },
     // async buyNewTree() {
     //     try {
     //         const freeTrees = await Trees.find({owner: null});
