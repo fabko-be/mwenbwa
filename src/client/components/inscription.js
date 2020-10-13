@@ -1,8 +1,10 @@
 import React, {useState} from "react";
-import {Modal} from "react-bootstrap";
+import ReactDOM from "react-dom";
+import {Button, Modal} from "react-bootstrap";
+const axios = require("axios").default;
 
 const border = {
-    border: "solid green 3px",
+    border: "solid green 1px",
     backgroundColor: "#FFFFFF",
     marginLeft: "auto",
     marginRight: "auto",
@@ -21,7 +23,7 @@ const Inscription = () => {
     return (
         <>
             <div className={"card-image has-text-centered"}>
-                {"Don't have an account?"}
+                Don't have an account?
                 <a onClick={handleShow}> Sign Up</a>
             </div>
             <Modal show={show} onHide={handleClose}>

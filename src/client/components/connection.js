@@ -1,5 +1,6 @@
 import * as React from "react";
 import inscription from "./inscription";
+import rules from "./rules";
 const card = {
     backgroundImage:
         "url(" +
@@ -11,7 +12,7 @@ const card = {
 };
 
 const border = {
-    border: "solid green 3px",
+    border: "solid green 1px",
     backgroundColor: "#FFFFFF",
     marginLeft: "auto",
     marginRight: "auto",
@@ -20,6 +21,7 @@ const border = {
 
 const Connection = () => (
     <div>
+        <rules />
         <div style={card}>
             <section className={"card-image has-text-centered"}>
                 <form style={border}>
@@ -38,11 +40,7 @@ const Connection = () => (
                     <br />
                     <br />
                     <div className={"buttons card-image has-text-centered"}>
-                        <div
-                            className={"button is-primary"}>
-                            {/* // onClick={"Enter"} */}
-                            Enter
-                        </div>
+                        <div className={"button is-primary"}>Enter</div>
                         <inscription />
                     </div>
                     <br />
