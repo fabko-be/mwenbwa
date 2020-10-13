@@ -3,28 +3,32 @@ import accountcontroller from "./controllers/accountcontroller";
 import treescontroller from "./controllers/treescontroller";
 const routes = express.Router();
 
+/* ********************************** */
+/* User and Account routes definition */
+/* ********************************** */
+// Get profile
+routes.get("/users/me", accountcontroller.accountProfile);
 // Create new Account
-routes.post("/register", accountcontroller.registeraccount);
-
+routes.post("/users/register", accountcontroller.registeraccount);
+routes.post("/users/login", accountcontroller.loginaccount);
 // Update account
 // Update user fields (name, email, password, color)
-routes.put("/updateuser/:id", accountcontroller.updateaccount);
-// Update user trees (push new tree into trees array in users collection)
-routes.put("/updateusertrees/:id", accountcontroller.updatetrees);
-
+routes.put("/users/update", accountcontroller.updateaccount);
 // Get all users
-routes.get("/allusers", accountcontroller.allusers);
-
+routes.get("/users/allusers", accountcontroller.allusers);
 // Search Account
-routes.get("/searchbyname/:name", accountcontroller.retrievebyname);
+routes.get("/searchbyname", accountcontroller.retrievebyname);
 routes.get("/searchbyemail/:email", accountcontroller.retrievebyemail);
 routes.get("/searchbyid/:id", accountcontroller.retrievebyid);
-
 // Delete Account
 routes.delete("/deleteuser/:id", accountcontroller.deletebyid);
 
-// Consult trees
+/* ********************************** */
+/*       Trees routes definition      */
+/* ********************************** */
 
+// Consult trees
 routes.get("/treeslist", treescontroller.alltrees);
+// routes.get("/buytree", treescontroller.buyNewTree);
 
 module.exports = routes;
