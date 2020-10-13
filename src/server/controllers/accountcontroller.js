@@ -3,6 +3,7 @@ import {Trees} from "../models/trees";
 import bcrypt from "bcryptjs";
 import jwt from "../middleware/jwtauth";
 import treeFunction from "../functions/treesfunction";
+import userFunction from "../functions/accountfunction";
 
 // eslint-disable-next-line no-useless-escape
 const EMAIL_REGEX = /^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$/;
@@ -56,7 +57,6 @@ module.exports = {
             }
             const hashedPassword = await bcrypt.hash(password, 10);
             const treesToAdd = await treeFunction.newPlayerTrees();
-            // console.log(treesToAdd);
             await account.create({
                 name,
                 email,
@@ -65,15 +65,7 @@ module.exports = {
                 trees: treesToAdd,
                 leaves,
             });
-            // console.log(treesToAdd);
             const userCreated = await account.findOne({email});
-            // const treesList = treesToAdd.map(obj => obj.id);
-            // const treesName = treesToAdd.map(obj => obj.name);
-            // await Trees.update(
-            //     {_id: {$in: treesList}},
-            //     {$set: {owner: userCreated._id, name: {$in: treesName}}},
-            //     {multi: true},
-            // );
             treesToAdd.forEach(async tree => {
                 await Trees.update(
                     {_id: tree.id},
@@ -88,6 +80,7 @@ module.exports = {
                 .json({message: `Impossible to create account ${error}`});
         }
     },
+    // Login de l'utilisateur
     async loginaccount(req, res) {
         const {email, password} = req.body;
 
@@ -210,7 +203,7 @@ module.exports = {
     async retrievebyemail(req, res) {
         try {
             const emailSearch = await account.findOne({
-                email: req.params.email,
+                email: req.body.email,
             });
             res.send(emailSearch);
         } catch (error) {
@@ -221,7 +214,7 @@ module.exports = {
     async retrievebyid(req, res) {
         try {
             const idSearch = await account.findOne({
-                _id: req.params.id,
+                _id: req.body.id,
             });
             res.send(idSearch);
         } catch (error) {
@@ -231,7 +224,18 @@ module.exports = {
     // Supprimer un utilisateur
     async deletebyid(req, res) {
         try {
-            await account.deleteOne({_id: req.params.id});
+            const accountId = await userFunction.tokenVerification(req, res);
+            const userToDelete = await account.findOne({_id: accountId});
+            const treesOfUser = userToDelete.trees;
+            const treesId = treesOfUser.map(obj => obj.id);
+            treesId.forEach(async tree => {
+                await Trees.updateOne(
+                    {_id: tree},
+                    {$set: {owner: null, name: null}},
+                    {multi: true},
+                );
+            });
+            await account.deleteOne({_id: accountId});
             return res
                 .status(200)
                 .json({message: "Account successfully deleted !"});
@@ -239,6 +243,7 @@ module.exports = {
             return res.status(404).json({message: "Account doesn't exists !"});
         }
     },
+    // Récupération des infos du profil utilisateur
     async accountProfile(req, res) {
         try {
             const headerToken = req.headers.authorization;

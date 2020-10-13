@@ -21,7 +21,7 @@ routes.get("/searchbyname", accountcontroller.retrievebyname);
 routes.get("/searchbyemail/:email", accountcontroller.retrievebyemail);
 routes.get("/searchbyid/:id", accountcontroller.retrievebyid);
 // Delete Account
-routes.delete("/deleteuser/:id", accountcontroller.deletebyid);
+routes.delete("/users/deleteuser", accountcontroller.deletebyid);
 
 /* ********************************** */
 /*       Trees routes definition      */
@@ -30,5 +30,5 @@ routes.delete("/deleteuser/:id", accountcontroller.deletebyid);
 // Consult trees
 routes.get("/treeslist", treescontroller.alltrees);
 // routes.get("/buytree", treescontroller.buyNewTree);
-
+routes.post("/tree/buytree", treescontroller.buytree);
 module.exports = routes;

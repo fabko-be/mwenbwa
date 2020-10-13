@@ -21,10 +21,7 @@ const TreesSchema = new mongoose.Schema({
     hauteur_totale: {type: Number, alias: "height"},
     nom_complet: {type: String, alias: "scname"},
     name: {type: String, alias: "fname"},
-    history: [
-        {date: Date},
-        {user: {type: Schema.Types.ObjectId, ref: "users"}},
-    ],
+    history: {type: Array, default: null, sparse: true},
     circonf: {type: Number},
     location: {type: TreePoint, required: true},
     owner: {type: Schema.Types.ObjectId, ref: "users"},
