@@ -8,7 +8,7 @@ import statusRoutes from "./routes/status";
 import routeLeaderboard from "./routes/leaderboard";
 import logRoute from "./routes/log";
 import {tree} from "./models/tree-schema";
-import User from "./models/user-schema";
+// import User from "./models/user-schema";
 
 mongoose
     .connect(
