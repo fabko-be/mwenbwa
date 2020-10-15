@@ -1,6 +1,6 @@
 import socket from "socket.io";
 import {tree} from "../models/tree-schema";
-// import User from "../models/user-schema";
+import User from "../models/user-schema";
 
 module.exports.listen = app => {
     const io = socket.listen(app);
