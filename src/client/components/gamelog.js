@@ -41,28 +41,6 @@ export default function GamelogPage(props) {
                 <footer
                     className={"modal-card-foot"}
                     style={{justifyContent: "center"}}>
-                    {setPageNum === 0 ? (
-                        <></>
-                    ) : (
-                        <nav
-                            className={"pagination is-rounded is-centered"}
-                            role={"navigation"}
-                            aria-label={"pagination"}>
-                            <a className={"pagination-previous"}>
-                                {"Previous page"}
-                            </a>
-                            <a className={"pagination-next"}>{"Next page"}</a>
-                            <ul className={"pagination-list"}>
-                                <li>
-                                    <a
-                                        className={"pagination-link is-current"}
-                                        aria-label={"Goto page 1"}>
-                                        1
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    )}
                 </footer>
             </div>
         </div>
