@@ -16,7 +16,7 @@
       ports:
         - "80:12345"
         - "9229"
-      command: "nodemon --inspect=0.0.0.0:9229 --watch bin/server bin/server/index.js"
+      command: "nodemon --inspect=0.0.0.0:9229 --watch bin/server bin/server/server.js"
     mongo:
       image: "mongo"
       restart: "always"
