@@ -12,7 +12,7 @@ module.exports = {
     // Création d'un nouvel utilisateur
     async registeraccount(req, res) {
         try {
-            const {name, email, password, color, leaves} = req.body;
+            const {name, email, password, color} = req.body;
             const userExist = await account.findOne({name});
             const emailExist = await account.findOne({email});
             const colorExist = await account.findOne({color});
@@ -55,6 +55,7 @@ module.exports = {
                     .status(400)
                     .json({message: "This color is already in use !"});
             }
+            const generateLeaves = userFunction.generateStartLeaves();
             const hashedPassword = await bcrypt.hash(password, 10);
             const treesToAdd = await treeFunction.newPlayerTrees();
             await account.create({
@@ -63,7 +64,7 @@ module.exports = {
                 password: hashedPassword,
                 color,
                 trees: treesToAdd,
-                leaves,
+                leaves: generateLeaves,
             });
             const userCreated = await account.findOne({email});
             treesToAdd.forEach(async tree => {

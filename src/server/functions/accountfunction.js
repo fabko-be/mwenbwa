@@ -1,4 +1,5 @@
 import "./treesfunction";
+import account from "../models/account";
 import jwt from "../middleware/jwtauth";
 
 const tokenVerification = async (req, res) => {
@@ -15,7 +16,23 @@ const tokenVerification = async (req, res) => {
         return res.status(400).json({error: "Impossible to verify Token"});
     }
 };
-
+const generateStartLeaves = async (req, res) => {
+    try {
+        const selectedUsers = await account.find();
+        let totalUser = 0;
+        let totalLeaves = 0;
+        selectedUsers.forEach(user => {
+            totalUser++;
+            totalLeaves += user.leaves;
+        });
+        return totalLeaves / totalUser;
+    } catch (error) {
+        return res.status(400).json({
+            error: "Impossible to generate start leaves for player",
+        });
+    }
+};
 module.exports = {
     tokenVerification,
+    generateStartLeaves,
 };
