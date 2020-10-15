@@ -1,22 +1,12 @@
 # mwenbwa
 
-> A web-based game of conquests… and trees :deciduous_tree:
+> A web-based game of conquests… and trees
 
 * * *
 
-- Type of challenge: **learning Node - MongoDB / consolidating React**
-- Repository : **`mwenbwa`**
-- Duration : **4 weeks**
-- Deadline : **15/10/2020 17:00**
-- Deployment method : **Free to choose**
-- Team : **Trio**
-- Project submition : [Google form]()
-
 ## Introduction
 
-In order to make Liège people aware of the environment of their town, the City of Liège contact your team of developpers to create a game based on trees...
-
-With this [external data](https://data.gov.be/en/node/48556), you will create a WebApp consisting of a REST-like API (back-end) and a React SPA (front-end). This WebApp will consist be an online [IDLE Game](https://en.wikipedia.org/wiki/Incremental_game), based in Liège.
+Based on [external data](https://data.gov.be/en/node/48556), you will create a WebApp consisting of a REST-like API (back-end) and a React SPA (front-end). This WebApp will consist be an online [IDLE Game](https://en.wikipedia.org/wiki/Incremental_game), based in Liège.
 
 ## Mwenbwa - game rules
 
@@ -25,7 +15,6 @@ In a map of Liège, there will be trees. Each tree as a _value_ (which is the pr
 > This value will use the "leaf" as unit. For instance, a tree of 9m of diameter and 17.3m of size will have a value of (`9 × 17.3 = 155.7 ≈ 156`) **156 leaves**.
 
 When a player enter the game, he needs to create an account, will choose a color, and will receive three random, *free* tree (and some bonus leaves, following the formula: `[total leaves of players] / [amount of players]`).  
-
 Every fifteen minutes **in real life**, each player will receive an amount of leaves equals to the total of each of his trees.  
 Every hour **in real life**, each player loose half his leaves.
 
@@ -36,8 +25,7 @@ Whenever he wants, a player can _buy_ a tree.
 - If the tree is *free*, the _value_ of the tree is its price. When a player buy a *free tree*, a [random name](https://www.npmjs.com/package/fantasy-name-generator) is affected to that tree.
 - If the tree belongs to another player, the price is computed with the following formula: `[value of the targetted tree] + ([value of all the targetted player's trees in 100m radius] × ([amount of trees in 100m radius] / [amount of tree of targetted player in 100m radius])) + [value of all the other players trees in 100m radius] - [value of all your tree in 100m radius]`.
 
-Whenever he wants, a player can *lock* a tree by paying the following formula: `[value of the tree] × 10 + ([value of all the trees in 100m radius] × [amount of players in 100m radius]) - ([value of all player's trees in 100m radius] / [amount of players in 100m radius])`. 
-A *locked tree* can't be buy by another player.
+Whenever he wants, a player can *lock* a tree by paying the following formula: `[value of the tree] × 10 + ([value of all the trees in 100m radius] × [amount of players in 100m radius]) - ([value of all player's trees in 100m radius] / [amount of players in 100m radius])`. A *locked tree* can't be buy by another player.
 
 At anytime, a player can check the *leaderboard*, to see each player score, amount of trees, etc.  
 At anytime, a player can consult the *gamelog*, which record all actions in the game.
@@ -134,22 +122,18 @@ To check your files with ESLint and Prettier you can also run this command:  `np
 
 ###### Hooks git
 
-The project is also configured with a *hook* of **precommit** for git: when you will try to commit your files, ESLint and Prettier will be executed and, in case of error, the commit will be canceled to let you correct your mistakes. This way you will have the certitude of commiting files exempt of potential problems. 
+The project is also configured with a *hook* de **precommit** for git: when you will try to commit your files, ESLint and Prettier will be executed and, in case of error, the commit will be canceled to let you correct your mistakes. This way you will have the certitude of commiting files exempt of potential problems. 
 
 #### Deployment
 
-We are expecting a **functionnal** and *deployed* project.  
-One of the solutions is to use [**Heroku**](https://www.heroku.com).   
-To host your Database, Heroku is working with [**mLab**](https://mlab.com) .
+We are expecting a **functionnal** and *deployed* project.
+One of the solutions is to use [**Heroku**](https://www.heroku.com). To host your Database, Heroku is working with [**mLab**](https://mlab.com) .
 
+* * *
 
+## Deadline
 
-### Client-oriented
- 
-Every Thursday afternoon, the client is expecting an e-mail which explains the evolution of the project. 
-You can write @ nico@becode.org and nick@becode.org, we will forward to the City of Liège. 
+The project **have** to be online the **26/06/2020 16H59**.  
+We are expecting an e-mail for each group with a link to the repository and a link to the application in production.
 
-## Have fun and wood work
-
-
-![trees](https://media.giphy.com/media/RJD7cICGxN5nsIBLCo/giphy.gif)
+Have fun and good work.
