@@ -14,6 +14,12 @@ module.exports = {
             res.status(400).json({message: "Impossible to list trees"});
         }
     },
+    // async displayTrees(req, res){
+    //     try{
+    //         const {north, south, west, east} = req.body;
+    //         const treeslist = await trees.find({coordinates[0]<north && coordinates[0]>south})
+    //     }
+    // }
     // Buy tree
     async buytree(req, res) {
         try {
