@@ -9,6 +9,7 @@
 import * as React from "react";
 import {Map, TileLayer, Marker} from "react-leaflet";
 import api from "../axios/config";
+import MarkerClusterGroup from "react-leaflet-markercluster";
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -27,7 +28,7 @@ export default class Main extends React.Component {
         this.getTrees();
     }
     getTrees() {
-        api.get("/displaytrees", {
+        const data = {
             headers: {
                 "Content-Type": "application/json",
                 north: this.state.boundsno[0],
@@ -35,7 +36,8 @@ export default class Main extends React.Component {
                 south: this.state.boundsse[0],
                 east: this.state.boundsse[1],
             },
-        }).then(res => {
+        };
+        api.get("/displaytrees", data).then(res => {
             const trees = res.data;
             this.setState({trees});
         });
@@ -65,21 +67,23 @@ export default class Main extends React.Component {
                 minZoom={17}
                 onMoveEnd={this.handleMoveMap}
                 ref={this.currentMap}>
-                {this.state.trees.map(tree => (
-                    <Marker
-                        key={tree._id}
-                        position={[
-                            tree.location.coordinates[1],
-                            tree.location.coordinates[0],
-                        ]}
-                    />
-                ))}
                 <TileLayer
                     url={"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
                     attribution={
                         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     }
                 />
+                <MarkerClusterGroup disableClusteringAtZoom={18}>
+                    {this.state.trees.map(tree => (
+                        <Marker
+                            key={tree._id}
+                            position={[
+                                tree.location.coordinates[1],
+                                tree.location.coordinates[0],
+                            ]}
+                        />
+                    ))}
+                </MarkerClusterGroup>
             </Map>
         );
     }
