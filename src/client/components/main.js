@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import {Map, TileLayer} from "react-leaflet";
+import {Map, TileLayer, Marker} from "react-leaflet";
 import api from "../axios/config";
 
 export default class Main extends React.Component {
@@ -15,36 +15,31 @@ export default class Main extends React.Component {
         super(props);
         this.state = {
             trees: [],
-            boundsno: [],
-            boundsse: [],
+            boundsno: [50.647589686768306, 5.568888187408448],
+            boundsse: [50.642691248989884, 5.5779433250427255],
         };
-        this.timer = null;
+        this.getTrees = this.getTrees.bind(this);
         this.handleMoveMap = this.handleMoveMap.bind(this);
         this.currentMap = React.createRef();
-
-        this.handleTimeout = () => {
-            this.timer = setTimeout(() => {
-                this.handleMoveMap();
-            }, 1000);
-        };
     }
-
     componentDidMount() {
-        api.get("/treeslist").then(res => {
+        this.handleMoveMap();
+        this.getTrees();
+    }
+    getTrees() {
+        api.get("/displaytrees", {
+            headers: {
+                "Content-Type": "application/json",
+                north: this.state.boundsno[0],
+                west: this.state.boundsno[1],
+                south: this.state.boundsse[0],
+                east: this.state.boundsse[1],
+            },
+        }).then(res => {
             const trees = res.data;
             this.setState({trees});
         });
-        this.handleTimeout();
     }
-    componentDidUpdate() {
-        clearTimeout(this.timer);
-        this.timer = null;
-    }
-    componentWillUnmount() {
-        clearTimeout(this.timer);
-        this.timer = null;
-    }
-
     handleMoveMap() {
         const myMap = this.currentMap.current;
         const bounds = myMap.leafletElement.getBounds();
@@ -58,6 +53,7 @@ export default class Main extends React.Component {
                 boundsno: [nordOuest.lat, nordOuest.lng],
                 boundsse: [sudEst.lat, sudEst.lng],
             });
+            this.getTrees();
         }
     }
     render() {
@@ -67,9 +63,9 @@ export default class Main extends React.Component {
                 zoom={17}
                 maxZoom={18}
                 minZoom={17}
-                onMoveEnd={this.handleTimeout}
+                onMoveEnd={this.handleMoveMap}
                 ref={this.currentMap}>
-                {/* {this.state.trees.map(tree => (
+                {this.state.trees.map(tree => (
                     <Marker
                         key={tree._id}
                         position={[
@@ -77,7 +73,7 @@ export default class Main extends React.Component {
                             tree.location.coordinates[0],
                         ]}
                     />
-                ))} */}
+                ))}
                 <TileLayer
                     url={"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
                     attribution={

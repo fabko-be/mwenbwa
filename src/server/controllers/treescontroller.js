@@ -14,12 +14,20 @@ module.exports = {
             res.status(400).json({message: "Impossible to list trees"});
         }
     },
-    // async displayTrees(req, res){
-    //     try{
-    //         const {north, south, west, east} = req.body;
-    //         const treeslist = await trees.find({coordinates[0]<north && coordinates[0]>south})
-    //     }
-    // }
+    async displayTrees(req, res) {
+        try {
+            const {north, south, west, east} = req.headers;
+            const treesList = await Trees.find({
+                "location.coordinates.1": {$lt: north, $gt: south},
+                "location.coordinates.0": {$lt: east, $gt: west},
+            });
+            return res.send(treesList);
+        } catch {
+            return res
+                .status(400)
+                .json({message: "T'as fait une requête de merde !"});
+        }
+    },
     // Buy tree
     async buytree(req, res) {
         try {

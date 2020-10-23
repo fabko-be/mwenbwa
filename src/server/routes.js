@@ -29,6 +29,8 @@ routes.delete("/users/deleteuser", accountcontroller.deletebyid);
 
 // Consult trees
 routes.get("/treeslist", treescontroller.alltrees);
+// recup displayble trees
+routes.get("/displaytrees", treescontroller.displayTrees);
 // routes.get("/buytree", treescontroller.buyNewTree);
 routes.post("/tree/buytree", treescontroller.buytree);
 module.exports = routes;
