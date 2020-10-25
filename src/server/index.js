@@ -21,7 +21,7 @@ import routes from "./routes";
 dotenv.config();
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
-const {APP_PORT} = process.env;
+const {APP_PORT, MONGO_DB_CONNECTION} = process.env;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 // Connexion to DataBase
 
 try {
-    mongoose.connect(process.env.MONGO_DB_CONNECTION, {
+    mongoose.connect(MONGO_DB_CONNECTION, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });

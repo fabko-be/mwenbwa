@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import {Map, TileLayer, Marker} from "react-leaflet";
+import {Map, TileLayer, Marker, Popup} from "react-leaflet";
 import api from "../axios/config";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import {renderToStaticMarkup} from "react-dom/server";
@@ -99,9 +99,22 @@ export default class Main extends React.Component {
                                         }}
                                     />,
                                 ),
-                            })}
-                            // {customMarkerIcon}
-                        />
+                            })}>
+                            <Popup>
+                                <h1>{tree.name ? tree.name : "A vendre"}</h1>
+                                <div style={{marginBottom: "10px"}}>
+                                    <a
+                                        href={`https://wikipedia.org/wiki/${tree.nom_complet}`}
+                                        target={`_blank`}
+                                        style={{fontSize: "14px"}}>
+                                        {tree.nom_complet}
+                                    </a>
+                                </div>
+                                <button as={"input"} type={"button"}>
+                                    {`Buy for ${tree.value} leaves`}
+                                </button>
+                            </Popup>
+                        </Marker>
                     ))}
                 </MarkerClusterGroup>
             </Map>
