@@ -55,7 +55,7 @@ module.exports = {
                     .status(400)
                     .json({message: "This color is already in use !"});
             }
-            const generateLeaves = userFunction.generateStartLeaves();
+            const generateLeaves = await userFunction.generateStartLeaves();
             const hashedPassword = await bcrypt.hash(password, 10);
             const treesToAdd = await treeFunction.newPlayerTrees();
             await account.create({
@@ -63,14 +63,38 @@ module.exports = {
                 email,
                 password: hashedPassword,
                 color,
-                trees: treesToAdd,
                 leaves: generateLeaves,
             });
             const userCreated = await account.findOne({email});
+            const today = new Date();
+            const date = `${today.getFullYear()}-${
+                today.getMonth() + 1
+            }-${today.getDate()}`;
+            const hours = today.getHours() + 1;
+            const minutes =
+                (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
+            const seconds =
+                (today.getSeconds() < 10 ? "0" : "") + today.getSeconds();
+            const time = `${hours}:${minutes}:${seconds}`;
+            const currentDate = `${date} ${time}`;
             treesToAdd.forEach(async tree => {
-                await Trees.update(
+                await Trees.updateOne(
                     {_id: tree.id},
-                    {$set: {owner: userCreated._id, name: tree.name}},
+                    {
+                        $set: {
+                            owner: userCreated._id,
+                            name: tree.name,
+                            history: {
+                                date: currentDate,
+                                user: userCreated.name,
+                            },
+                        },
+                    },
+                    {multi: true},
+                );
+                await account.updateOne(
+                    {_id: userCreated._id},
+                    {$push: {trees: tree.id}},
                     {multi: true},
                 );
             });
@@ -215,7 +239,7 @@ module.exports = {
     async retrievebyid(req, res) {
         try {
             const idSearch = await account.findOne({
-                _id: req.body.id,
+                _id: req.params.id,
             });
             res.send(idSearch);
         } catch (error) {
@@ -227,15 +251,25 @@ module.exports = {
         try {
             const accountId = await userFunction.tokenVerification(req, res);
             const userToDelete = await account.findOne({_id: accountId});
-            const treesOfUser = userToDelete.trees;
-            const treesId = treesOfUser.map(obj => obj.id);
-            treesId.forEach(async tree => {
-                await Trees.updateOne(
-                    {_id: tree},
-                    {$set: {owner: null, name: null}},
-                    {multi: true},
-                );
-            });
+            const treesOfUser = await userToDelete.trees;
+            console.log(treesOfUser);
+            if (treesOfUser !== null) {
+                // const treesId = treesOfUser.map(obj => obj.id);
+                treesOfUser.forEach(async tree => {
+                    try {
+                        console.log(tree);
+                        await Trees.updateOne(
+                            {_id: tree},
+                            {
+                                $unset: {owner: 1, name: 1},
+                            },
+                            {multi: true},
+                        );
+                    } catch (error) {
+                        console.log(error);
+                    }
+                });
+            }
             await account.deleteOne({_id: accountId});
             return res
                 .status(200)

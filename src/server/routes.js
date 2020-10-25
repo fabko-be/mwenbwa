@@ -2,7 +2,6 @@ import express from "express";
 import accountcontroller from "./controllers/accountcontroller";
 import treescontroller from "./controllers/treescontroller";
 const routes = express.Router();
-
 /* ********************************** */
 /* User and Account routes definition */
 /* ********************************** */
@@ -19,7 +18,7 @@ routes.get("/users/allusers", accountcontroller.allusers);
 // Search Account
 routes.get("/searchbyname", accountcontroller.retrievebyname);
 routes.get("/searchbyemail/:email", accountcontroller.retrievebyemail);
-routes.get("/searchbyid/:id", accountcontroller.retrievebyid);
+routes.get("/users/:id", accountcontroller.retrievebyid);
 // Delete Account
 routes.delete("/users/deleteuser", accountcontroller.deletebyid);
 

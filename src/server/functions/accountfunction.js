@@ -25,7 +25,11 @@ const generateStartLeaves = async (req, res) => {
             totalUser++;
             totalLeaves += user.leaves;
         });
-        return totalLeaves / totalUser;
+        const generatedLeaves = totalLeaves / totalUser;
+        if (generatedLeaves === Number) {
+            return generatedLeaves;
+        }
+        return 100;
     } catch (error) {
         return res.status(400).json({
             error: "Impossible to generate start leaves for player",

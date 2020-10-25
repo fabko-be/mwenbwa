@@ -26,6 +26,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.resolve(__dirname, "../../bin/client")));
+// import {Trees} from "./models/trees";
 
 app.get("/", (req, res) => {
     res.setHeader("Content-Type", "text/html");
@@ -43,6 +44,22 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+// async function test() {
+//     const trees = await Trees.find();
+//     trees.forEach(async tree => {
+//         if (tree.history !== null) {
+//             console.log(tree);
+//             await Trees.updateOne(
+//                 {_id: tree._id},
+//                 {$set: {history: null}},
+//                 {multi: true},
+//             );
+//         }
+//     });
+// }
+
+// test();
 // Import api routes
 app.use(routes);
 
