@@ -9,9 +9,6 @@ function generateToken(userData) {
             userID: userData._id,
         },
         process.env.JWT_SIGN_SECRET,
-        {
-            expiresIn: "4h",
-        },
     );
     return token;
 }
