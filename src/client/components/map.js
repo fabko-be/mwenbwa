@@ -80,6 +80,7 @@ export default class LeafletMap extends React.Component {
                                 tree.location.coordinates[0],
                             ]}
                             opacity={tree.isLock ? 0.5 : 1}
+                            // opacity={0.5}
                             riseOnHover={true}
                             icon={L.divIcon({
                                 html: renderToStaticMarkup(
